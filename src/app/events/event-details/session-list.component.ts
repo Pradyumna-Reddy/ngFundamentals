@@ -8,10 +8,14 @@ import { ISession } from "../shared";
 export class SessionListComponent implements OnChanges {
   @Input() sessions: ISession[] | undefined
   @Input () filterBy: string = 'all'
+  @Input() sortBy : string = 'votes'
   visibleSessions: ISession[] | undefined
   ngOnChanges(changes: SimpleChanges): void {
     if(this.sessions) {
       this.filterSessions(this.filterBy)
+      this.sortBy === 'name'
+        ? this.visibleSessions?.sort(sortByNameAsc)
+        : this.visibleSessions?.sort(sortByVotesDesc)
     }
   }
 
@@ -23,4 +27,14 @@ export class SessionListComponent implements OnChanges {
         session.level.toLocaleLowerCase() === filter)
     }
   }
+}
+
+function sortByNameAsc(a: ISession, b: ISession) {
+  if(a.name > b.name) return 1
+  else if (a.name === b.name) return 0
+  else return -1
+}
+
+function sortByVotesDesc(a: ISession, b: ISession) {
+  return b.voters.length - a.voters.length
 }
