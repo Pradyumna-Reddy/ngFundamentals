@@ -1,6 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { RouterModule } from '@angular/router';
+import { appRoutes } from './routes';
+import { Error404Component } from './errors/404.component';
+import { AuthService } from './user/auth.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SessionListComponent } from './events/event-details/session-list.component';
 import {
   EventsListComponent,
   EventThumbnailComponent,
@@ -14,16 +19,17 @@ import {
 } from './events/index'
 import { EventsAppComponent } from './events-app.component';
 import { NavBarComponent } from './nav/navbar.component';
-import { Toastr, TOASTR_TOKEN } from './common/toastr.service';
-import { RouterModule } from '@angular/router';
-import { appRoutes } from './routes';
-import { Error404Component } from './errors/404.component';
-import { AuthService } from './user/auth.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SessionListComponent } from './events/event-details/session-list.component';
-import { CollabsibleWellComponent } from './common/collapsible-well.component';
+import {
+  Toastr,
+  TOASTR_TOKEN,
+  JQ_TOKEN,
+  CollabsibleWellComponent,
+  SimpleModalComponent,
+  ModalTriggerDirective
+} from './common';
 
 declare let toastr: Toastr
+declare let jQuery: any
 
 @NgModule({
   declarations: [
@@ -37,7 +43,9 @@ declare let toastr: Toastr
     CreateSessionComponent,
     SessionListComponent,
     CollabsibleWellComponent,
-    DurationPipe
+    SimpleModalComponent,
+    DurationPipe,
+    ModalTriggerDirective
   ],
   imports: [
     BrowserModule,
@@ -48,6 +56,7 @@ declare let toastr: Toastr
   providers: [
     EventService,
     { provide: TOASTR_TOKEN, useValue: toastr},
+    { provide: JQ_TOKEN, useValue: jQuery},
     EventRouteActivator,
     { provide: 'canDeactivateCreateEvent', useValue: checkDirtyState },
     EventsListResolver,
