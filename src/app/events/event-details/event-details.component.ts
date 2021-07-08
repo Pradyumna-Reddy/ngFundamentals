@@ -22,6 +22,7 @@ export class EventDetailsComponent implements OnInit {
   ngOnInit() {
     this.route.params.forEach((params: Params) => {
       this.event = this.eventService.getEvent(+params['id'])
+      // resetting other state of the component or you can call a method which resets state
       this.addMode = false
     })
 
