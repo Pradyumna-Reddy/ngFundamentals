@@ -12,13 +12,13 @@ import {
   EventService,
   EventDetailsComponent,
   CreateEventComponent,
-  EventRouteActivator,
   EventsListResolver,
   CreateSessionComponent,
   DurationPipe,
   UpvoteComponent,
   VoterService,
-  LocationValidator
+  LocationValidator,
+  EventResolver
 } from './events/index'
 import { EventsAppComponent } from './events-app.component';
 import { NavBarComponent } from './nav/navbar.component';
@@ -30,6 +30,7 @@ import {
   SimpleModalComponent,
   ModalTriggerDirective
 } from './common';
+import { HttpClientModule } from '@angular/common/http'
 
 declare let toastr: Toastr
 declare let jQuery: any
@@ -56,17 +57,18 @@ declare let jQuery: any
     BrowserModule,
     RouterModule.forRoot(appRoutes),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [
     EventService,
     { provide: TOASTR_TOKEN, useValue: toastr},
     { provide: JQ_TOKEN, useValue: jQuery},
-    EventRouteActivator,
     { provide: 'canDeactivateCreateEvent', useValue: checkDirtyState },
     EventsListResolver,
     AuthService,
-    VoterService
+    VoterService,
+    EventResolver
   ],
   bootstrap: [EventsAppComponent]
 })
